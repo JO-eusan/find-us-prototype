@@ -193,7 +193,7 @@ const Index = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   
   // 관리자 페이지 상태
-  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedDistrict, setSelectedDistrict] = useState("all");
   const [adminItems, setAdminItems] = useState(mockLostItems);
   
   const { toast } = useToast();
@@ -317,7 +317,7 @@ const Index = () => {
   };
 
   const handleDistrictFilter = () => {
-    if (!selectedDistrict) {
+    if (selectedDistrict === "all") {
       setAdminItems(mockLostItems);
       return;
     }
@@ -711,7 +711,7 @@ const Index = () => {
               <CardHeader>
                 <CardTitle className="flex items-center text-xl">
                   <User className="w-5 h-5 mr-2" />
-                  관리자 모니터링
+                  관리자 모니터링 대시보드
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -726,7 +726,7 @@ const Index = () => {
                         <SelectValue placeholder="지역을 선택하세요" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">전체 지역</SelectItem>
+                        <SelectItem value="all">전체 지역</SelectItem>
                         {seoulDistricts.map((district) => (
                           <SelectItem key={district} value={district}>
                             {district}
@@ -740,36 +740,36 @@ const Index = () => {
                   </Button>
                 </div>
 
-                {/* Statistics */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <Card>
+                {/* Statistics Cards */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
                     <CardContent className="p-4">
-                      <div className="text-2xl font-bold text-gray-900">{adminItems.length}</div>
-                      <p className="text-xs text-gray-500">총 분실물</p>
+                      <div className="text-2xl font-bold text-blue-900">{adminItems.length}</div>
+                      <p className="text-sm text-blue-700">총 분실물</p>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
                     <CardContent className="p-4">
-                      <div className="text-2xl font-bold text-blue-600">
+                      <div className="text-2xl font-bold text-green-900">
                         {adminItems.filter(item => item.status === "습득 보관중").length}
                       </div>
-                      <p className="text-xs text-gray-500">보관중</p>
+                      <p className="text-sm text-green-700">보관중</p>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
                     <CardContent className="p-4">
-                      <div className="text-2xl font-bold text-orange-600">
+                      <div className="text-2xl font-bold text-orange-900">
                         {getOverdueItems().length}
                       </div>
-                      <p className="text-xs text-gray-500">7일 초과</p>
+                      <p className="text-sm text-orange-700">7일 초과</p>
                     </CardContent>
                   </Card>
-                  <Card>
+                  <Card className="bg-gradient-to-br from-emerald-50 to-emerald-100 border-emerald-200">
                     <CardContent className="p-4">
-                      <div className="text-2xl font-bold text-green-600">
+                      <div className="text-2xl font-bold text-emerald-900">
                         {adminItems.filter(item => item.status === "주인 찾음").length}
                       </div>
-                      <p className="text-xs text-gray-500">해결됨</p>
+                      <p className="text-sm text-emerald-700">해결됨</p>
                     </CardContent>
                   </Card>
                 </div>
@@ -778,22 +778,22 @@ const Index = () => {
                 <div>
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-medium">분실물 목록</h3>
-                    <Badge variant="outline">
-                      {selectedDistrict ? selectedDistrict : "전체 지역"}
+                    <Badge variant="outline" className="bg-gray-50">
+                      {selectedDistrict === "all" ? "전체 지역" : selectedDistrict}
                     </Badge>
                   </div>
                   
-                  <div className="border rounded-lg overflow-hidden">
+                  <div className="border rounded-lg overflow-hidden bg-white">
                     <Table>
                       <TableHeader>
-                        <TableRow>
-                          <TableHead>물품명</TableHead>
-                          <TableHead>습득장소</TableHead>
-                          <TableHead>습득일자</TableHead>
-                          <TableHead>경과일수</TableHead>
-                          <TableHead>상태</TableHead>
-                          <TableHead>연락처</TableHead>
-                          <TableHead>관리</TableHead>
+                        <TableRow className="bg-gray-50">
+                          <TableHead className="font-semibold">물품명</TableHead>
+                          <TableHead className="font-semibold">습득장소</TableHead>
+                          <TableHead className="font-semibold">습득일자</TableHead>
+                          <TableHead className="font-semibold">경과일수</TableHead>
+                          <TableHead className="font-semibold">상태</TableHead>
+                          <TableHead className="font-semibold">연락처</TableHead>
+                          <TableHead className="font-semibold">관리</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -803,12 +803,12 @@ const Index = () => {
                           );
                           
                           return (
-                            <TableRow key={item.id}>
+                            <TableRow key={item.id} className="hover:bg-gray-50">
                               <TableCell className="font-medium">{item.title}</TableCell>
                               <TableCell>{item.location}</TableCell>
                               <TableCell>{item.foundDate}</TableCell>
                               <TableCell>
-                                <span className={daysSinceFound > 7 ? "text-red-600 font-medium" : ""}>
+                                <span className={daysSinceFound > 7 ? "text-red-600 font-semibold bg-red-50 px-2 py-1 rounded" : "text-gray-600"}>
                                   {daysSinceFound}일
                                 </span>
                               </TableCell>
@@ -817,7 +817,7 @@ const Index = () => {
                                   {item.status}
                                 </Badge>
                               </TableCell>
-                              <TableCell>{item.contact}</TableCell>
+                              <TableCell className="text-sm text-gray-600">{item.contact}</TableCell>
                               <TableCell>
                                 <Select 
                                   value={item.status} 
@@ -844,26 +844,31 @@ const Index = () => {
 
                 {/* Overdue Items Alert */}
                 {getOverdueItems().length > 0 && (
-                  <Card className="border-orange-200 bg-orange-50">
+                  <Card className="border-orange-200 bg-gradient-to-r from-orange-50 to-red-50">
                     <CardHeader>
-                      <CardTitle className="text-orange-800 text-lg">
-                        ⚠️ 처리 필요 분실물 ({getOverdueItems().length}개)
+                      <CardTitle className="text-orange-800 text-lg flex items-center">
+                        ⚠️ 긴급 처리 필요 분실물 ({getOverdueItems().length}개)
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
                       <p className="text-orange-700 text-sm mb-4">
-                        다음 분실물들은 습득한지 7일이 넘어 유실물센터로 이관이 필요합니다.
+                        다음 분실물들은 습득한지 7일이 넘어 <strong>유실물센터로 즉시 이관</strong>이 필요합니다.
                       </p>
-                      <div className="space-y-2">
+                      <div className="space-y-3">
                         {getOverdueItems().map((item) => (
-                          <div key={item.id} className="flex justify-between items-center bg-white p-3 rounded border">
+                          <div key={item.id} className="flex justify-between items-center bg-white p-4 rounded-lg border border-orange-200 shadow-sm">
                             <div>
-                              <span className="font-medium">{item.title}</span>
-                              <span className="text-gray-500 text-sm ml-2">({item.location})</span>
+                              <span className="font-semibold text-gray-900">{item.title}</span>
+                              <div className="text-sm text-gray-600 mt-1">
+                                <span className="mr-4">📍 {item.location}</span>
+                                <span className="text-red-600 font-medium">
+                                  {Math.floor((new Date().getTime() - new Date(item.foundDate).getTime()) / (1000 * 3600 * 24))}일 경과
+                                </span>
+                              </div>
                             </div>
                             <Button 
                               size="sm" 
-                              variant="outline"
+                              className="bg-orange-600 hover:bg-orange-700 text-white"
                               onClick={() => handleStatusChange(item.id, "유실물센터 이관")}
                             >
                               센터 이관
