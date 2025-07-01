@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { Search, Plus, MapPin, Calendar, User, Bell, X, Camera, Phone } from 'lucide-react';
+import { Search, Plus, MapPin, Calendar, User, Bell, X, Camera, Phone, MessageCircle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -183,10 +182,14 @@ const categories = ["전자기기", "지갑/가방", "액세서리", "의류", "
 const Index = () => {
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [searchKeyword, setSearchKeyword] = useState("");
+  const [locationSearchKeyword, setLocationSearchKeyword] = useState("");
   const [filteredItems, setFilteredItems] = useState(mockLostItems);
   const [activeTab, setActiveTab] = useState("search");
   const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
   const [isNotificationDialogOpen, setIsNotificationDialogOpen] = useState(false);
+  const [isChatDialogOpen, setIsChatDialogOpen] = useState(false);
+  const [selectedChatItem, setSelectedChatItem] = useState<any>(null);
+  const [chatMessage, setChatMessage] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   
   // 관리자 페이지 상태
@@ -205,6 +208,11 @@ const Index = () => {
     contact: "",
     image: null as File | null
   });
+
+  // 장소 필터링
+  const filteredLocations = locations.filter(location =>
+    location.toLowerCase().includes(locationSearchKeyword.toLowerCase())
+  );
 
   const handleLocationToggle = (location: string) => {
     setSelectedLocations(prev => 
@@ -281,6 +289,31 @@ const Index = () => {
 
     setIsNotificationDialogOpen(false);
     setPhoneNumber("");
+  };
+
+  const handleChatOpen = (item: any) => {
+    setSelectedChatItem(item);
+    setIsChatDialogOpen(true);
+  };
+
+  const handleChatSubmit = () => {
+    if (!chatMessage.trim()) {
+      toast({
+        title: "입력 오류",
+        description: "메시지를 입력해주세요.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    toast({
+      title: "메시지 전송 완료",
+      description: "소지자에게 메시지가 전송되었습니다."
+    });
+
+    setIsChatDialogOpen(false);
+    setChatMessage("");
+    setSelectedChatItem(null);
   };
 
   const handleDistrictFilter = () => {
@@ -553,9 +586,20 @@ const Index = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-3">
                     방문했던 장소를 선택해주세요 (서울 지역)
                   </label>
+                  
+                  {/* Location Search */}
+                  <div className="mb-4">
+                    <Input
+                      placeholder="장소 검색 (예: 강남역, 홍대)"
+                      value={locationSearchKeyword}
+                      onChange={(e) => setLocationSearchKeyword(e.target.value)}
+                      className="w-full"
+                    />
+                  </div>
+
                   <div className="max-h-40 overflow-y-auto border rounded-lg p-3">
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
-                      {locations.map((location) => (
+                      {filteredLocations.map((location) => (
                         <button
                           key={location}
                           onClick={() => handleLocationToggle(location)}
@@ -627,7 +671,13 @@ const Index = () => {
                         </div>
                         
                         <div className="pt-3 border-t">
-                          <Button variant="outline" size="sm" className="w-full">
+                          <Button 
+                            variant="outline" 
+                            size="sm" 
+                            className="w-full"
+                            onClick={() => handleChatOpen(item)}
+                          >
+                            <MessageCircle className="w-4 h-4 mr-2" />
                             연락하기
                           </Button>
                         </div>
@@ -829,6 +879,45 @@ const Index = () => {
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Chat Dialog */}
+      <Dialog open={isChatDialogOpen} onOpenChange={setIsChatDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>분실물 문의하기</DialogTitle>
+          </DialogHeader>
+          {selectedChatItem && (
+            <div className="space-y-4">
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <h4 className="font-medium text-sm">{selectedChatItem.title}</h4>
+                <p className="text-xs text-gray-500 mt-1">{selectedChatItem.location}</p>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  메시지
+                </label>
+                <Textarea
+                  placeholder="소지자에게 보낼 메시지를 입력하세요..."
+                  value={chatMessage}
+                  onChange={(e) => setChatMessage(e.target.value)}
+                  rows={4}
+                />
+              </div>
+              
+              <div className="flex space-x-2">
+                <Button variant="outline" onClick={() => setIsChatDialogOpen(false)} className="flex-1">
+                  취소
+                </Button>
+                <Button onClick={handleChatSubmit} className="flex-1">
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  전송
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Footer */}
       <footer className="bg-gray-50 border-t mt-12">
