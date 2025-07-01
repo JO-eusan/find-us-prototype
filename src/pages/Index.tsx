@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 
 // 모킹 데이터
@@ -21,7 +22,8 @@ const mockLostItems = [
     date: "2024-06-30",
     status: "습득 보관중",
     description: "퍼플색 아이폰 14 Pro, 투명 케이스 착용",
-    contact: "010-1234-****"
+    contact: "010-1234-****",
+    foundDate: "2024-06-30"
   },
   {
     id: 2,
@@ -31,7 +33,8 @@ const mockLostItems = [
     date: "2024-06-29",
     status: "습득 보관중",
     description: "검은색 가죽 지갑, 신분증과 카드 다수 포함",
-    contact: "010-5678-****"
+    contact: "010-5678-****",
+    foundDate: "2024-06-29"
   },
   {
     id: 3,
@@ -41,7 +44,8 @@ const mockLostItems = [
     date: "2024-06-28",
     status: "주인 찾음",
     description: "실버 체인 팔찌, 작은 하트 참 달려있음",
-    contact: "010-9012-****"
+    contact: "010-9012-****",
+    foundDate: "2024-06-28"
   },
   {
     id: 4,
@@ -51,7 +55,8 @@ const mockLostItems = [
     date: "2024-06-27",
     status: "습득 보관중",
     description: "화이트 에어팟 프로, 케이스만 있음",
-    contact: "010-3456-****"
+    contact: "010-3456-****",
+    foundDate: "2024-06-27"
   },
   {
     id: 5,
@@ -61,62 +66,116 @@ const mockLostItems = [
     date: "2024-06-26",
     status: "경찰서 이관",
     description: "베이지색 작은 크로스백, 골드 체인",
-    contact: "강남경찰서"
+    contact: "강남경찰서",
+    foundDate: "2024-06-26"
+  },
+  {
+    id: 6,
+    title: "삼성 갤럭시 버즈",
+    category: "전자기기",
+    location: "서초구 강남역 지하쇼핑센터",
+    date: "2024-06-22",
+    status: "습득 보관중",
+    description: "화이트 갤럭시 버즈, 충전 케이스 포함",
+    contact: "010-7890-****",
+    foundDate: "2024-06-22"
+  },
+  {
+    id: 7,
+    title: "금색 목걸이",
+    category: "액세서리",
+    location: "중구 명동역 쇼핑거리",
+    date: "2024-06-18",
+    status: "경찰서 이관",
+    description: "금색 체인 목걸이, 작은 펜던트 달려있음",
+    contact: "중부경찰서",
+    foundDate: "2024-06-18"
   }
 ];
 
-// 한국 전역 주요 장소 데이터
+// 서울 지역 주요 장소 데이터
 const locations = [
-  // 서울
-  "강남역", "홍대입구역", "신촌역", "명동역", "종로3가역", "잠실역", "건대입구역", 
-  "신사역", "압구정로데오역", "여의도역", "이태원역", "동대문역사문화공원역",
-  "경복궁", "남산타워", "롯데월드타워", "한강공원", "청계천", "동대문 디자인 플라자",
+  // 강남구
+  "강남역", "신사역", "압구정로데오역", "선릉역", "역삼역", "논현역", "학동역", "강남구청역",
   
-  // 부산
-  "부산역", "서면역", "해운대역", "광안리해수욕장", "자갈치시장", "태종대", 
-  "감천문화마을", "부산항", "센텀시티", "영도대교",
+  // 서초구
+  "교대역", "서초역", "방배역", "사당역", "남부터미널역", "양재역", "매봉역",
   
-  // 대구
-  "동대구역", "중앙로역", "반월당역", "서문시장", "앞산공원", "김광석다시그리기길",
+  // 송파구
+  "잠실역", "석촌호수", "롯데월드타워", "송파구청", "방이역", "오금역", "개롱역",
   
-  // 인천
-  "인천국제공항", "송도국제업무단지", "월미도", "차이나타운", "부평역", "작전역",
+  // 강동구
+  "강동역", "길동역", "굽은다리역", "명일역", "고덕역", "상일동역",
   
-  // 광주
-  "광주송정역", "상무지구", "양림동펭귄마을", "국립아시아문화전당",
+  // 중구
+  "명동역", "을지로입구역", "시청역", "종각역", "동대문역사문화공원역", "충무로역", "동국대입구역",
   
-  // 대전
-  "대전역", "서대전역", "유성온천", "엑스포과학공원", "한밭수목원",
+  // 종로구
+  "종로3가역", "안국역", "경복궁", "창덕궁", "인사동", "광화문", "종로5가역",
   
-  // 울산
-  "울산역", "태화강국가정원", "간절곶", "장생포 고래문화마을",
+  // 용산구
+  "용산역", "이촌역", "한강진역", "이태원역", "녹사평역", "남영역",
   
-  // 세종
-  "세종정부청사", "호수공원", "세종호수공원",
+  // 마포구
+  "홍대입구역", "신촌역", "합정역", "망원역", "마포구청역", "공덕역", "애오개역",
   
-  // 경기도
-  "수원역", "수원화성", "판교역", "분당서현역", "일산호수공원", "에버랜드", "한국민속촌",
-  "광명역", "안양역", "부천역", "김포공항", "의정부역", "파주 DMZ", "화성 제부도",
+  // 서대문구
+  "서대문역", "충정로역", "홍제역", "무악재역", "독립문역",
   
-  // 강원도
-  "춘천역", "강릉역", "속초해수욕장", "설악산", "남이섬", "정선 아리랑시장",
-  "평창 알펜시아", "원주역", "동해역", "삼척해수욕장",
+  // 은평구
+  "연신내역", "구산역", "응암역", "역촌역", "불광역",
   
-  // 충청도
-  "공주 공산성", "부여 백제문화단지", "보령 대천해수욕장", "단양 도담삼봉",
-  "충주호", "청주 상당산성", "천안 독립기념관", "아산 온양온천",
+  // 성북구
+  "성신여대입구역", "한성대입구역", "미아역", "돈암동", "정릉역",
   
-  // 전라도
-  "전주한옥마을", "여수 엑스포", "순천만 국가정원", "담양 죽녹원", "보성 녹차밭",
-  "목포역", "군산 시간여행", "정읍 내장산", "남원 광한루원",
+  // 강북구
+  "미아사거리역", "번동", "수유역", "강북구청", "4.19민주묘지역",
   
-  // 경상도
-  "경주 불국사", "안동 하회마을", "포항 호미곶", "거제 외도", "통영 케이블카",
-  "진주성", "하동 화개장터", "남해 독일마을", "창원 용지공원", "김해공항",
+  // 도봉구
+  "도봉산역", "방학역", "창동역", "도봉구청",
   
-  // 제주도
-  "제주공항", "성산일출봉", "한라산", "협재해수욕장", "우도", "천지연폭포",
-  "제주 올레길", "서귀포항", "중문관광단지", "애월해안도로"
+  // 노원구
+  "노원역", "상계역", "중계역", "하계역", "공릉역", "태릉입구역",
+  
+  // 동대문구
+  "동대문역", "신설동역", "제기동역", "청량리역", "회기역", "외대앞역",
+  
+  // 중랑구
+  "상봉역", "면목역", "사가정역", "용마산역", "중화역",
+  
+  // 성동구
+  "왕십리역", "성수역", "건대입구역", "뚝섬역", "한양대역",
+  
+  // 광진구
+  "구의역", "강변역", "잠실나루역", "서울숲역", "압구정역",
+  
+  // 동작구
+  "사당역", "동작역", "총신대입구역", "상도역", "장승배기역", "신대방삼거리역",
+  
+  // 관악구
+  "신림역", "봉천역", "서울대입구역", "낙성대역", "사당역",
+  
+  // 금천구
+  "금천구청역", "가산디지털단지역", "독산역", "시흥대야역",
+  
+  // 구로구
+  "구로역", "신도림역", "구일역", "개봉역", "오류동역",
+  
+  // 영등포구
+  "영등포구청역", "당산역", "합정역", "여의나루역", "여의도역", "신길역",
+  
+  // 양천구
+  "목동역", "오목교역", "양평역", "신정네거리역", "까치산역",
+  
+  // 강서구
+  "김포공항", "발산역", "마곡나루역", "양천향교역", "가양역"
+];
+
+// 서울 구별 데이터
+const seoulDistricts = [
+  "강남구", "서초구", "송파구", "강동구", "중구", "종로구", "용산구", "마포구",
+  "서대문구", "은평구", "성북구", "강북구", "도봉구", "노원구", "동대문구", "중랑구",
+  "성동구", "광진구", "동작구", "관악구", "금천구", "구로구", "영등포구", "양천구", "강서구"
 ];
 
 const categories = ["전자기기", "지갑/가방", "액세서리", "의류", "도서/문구", "스포츠용품", "기타"];
@@ -129,6 +188,11 @@ const Index = () => {
   const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
   const [isNotificationDialogOpen, setIsNotificationDialogOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
+  
+  // 관리자 페이지 상태
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [adminItems, setAdminItems] = useState(mockLostItems);
+  
   const { toast } = useToast();
 
   // 분실물 등록 폼 상태
@@ -183,7 +247,6 @@ const Index = () => {
       return;
     }
 
-    // 여기서 실제 등록 로직 구현
     toast({
       title: "등록 완료",
       description: "분실물이 성공적으로 등록되었습니다."
@@ -220,11 +283,47 @@ const Index = () => {
     setPhoneNumber("");
   };
 
+  const handleDistrictFilter = () => {
+    if (!selectedDistrict) {
+      setAdminItems(mockLostItems);
+      return;
+    }
+    
+    const filtered = mockLostItems.filter(item => 
+      item.location.includes(selectedDistrict)
+    );
+    setAdminItems(filtered);
+  };
+
+  const getOverdueItems = () => {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    
+    return adminItems.filter(item => {
+      const foundDate = new Date(item.foundDate);
+      return foundDate < sevenDaysAgo && item.status === "습득 보관중";
+    });
+  };
+
+  const handleStatusChange = (itemId: number, newStatus: string) => {
+    setAdminItems(prev => 
+      prev.map(item => 
+        item.id === itemId ? { ...item, status: newStatus } : item
+      )
+    );
+    
+    toast({
+      title: "상태 변경 완료",
+      description: `분실물 상태가 "${newStatus}"로 변경되었습니다.`
+    });
+  };
+
   const getStatusBadgeColor = (status: string) => {
     switch (status) {
       case "습득 보관중": return "bg-blue-100 text-blue-800";
       case "주인 찾음": return "bg-green-100 text-green-800";
       case "경찰서 이관": return "bg-gray-100 text-gray-800";
+      case "유실물센터 이관": return "bg-orange-100 text-orange-800";
       default: return "bg-gray-100 text-gray-800";
     }
   };
@@ -408,9 +507,8 @@ const Index = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger value="search">분실물 찾기</TabsTrigger>
-            <TabsTrigger value="register">분실물 등록</TabsTrigger>
             <TabsTrigger value="manage">관리자</TabsTrigger>
           </TabsList>
 
@@ -453,7 +551,7 @@ const Index = () => {
                 {/* Location Selection */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    방문했던 장소를 선택해주세요
+                    방문했던 장소를 선택해주세요 (서울 지역)
                   </label>
                   <div className="max-h-40 overflow-y-auto border rounded-lg p-3">
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
@@ -557,38 +655,175 @@ const Index = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value="register" className="space-y-6">
+          <TabsContent value="manage" className="space-y-6">
+            {/* Admin Section */}
             <Card>
               <CardHeader>
-                <CardTitle>분실물 등록하기</CardTitle>
+                <CardTitle className="flex items-center text-xl">
+                  <User className="w-5 h-5 mr-2" />
+                  관리자 모니터링
+                </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="text-center py-12">
-                  <Plus className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-gray-900 mb-2">
-                    상단의 "분실물 등록" 버튼을 클릭해주세요
-                  </h3>
-                  <p className="text-gray-500 mb-4">
-                    습득한 물품을 등록하여 주인을 찾아드립니다
-                  </p>
-                  <Button onClick={() => setIsRegisterDialogOpen(true)}>
-                    <Plus className="w-4 h-4 mr-2" />
-                    분실물 등록하기
+              <CardContent className="space-y-6">
+                {/* District Selection */}
+                <div className="flex space-x-4 items-end">
+                  <div className="flex-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      관할 지역 선택
+                    </label>
+                    <Select value={selectedDistrict} onValueChange={setSelectedDistrict}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="지역을 선택하세요" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">전체 지역</SelectItem>
+                        {seoulDistricts.map((district) => (
+                          <SelectItem key={district} value={district}>
+                            {district}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button onClick={handleDistrictFilter} className="bg-gray-900 hover:bg-gray-800">
+                    조회
                   </Button>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
 
-          <TabsContent value="manage" className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>관리자 모니터링</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="text-center py-12 text-gray-500">
-                  관리자 기능은 개발 중입니다.
+                {/* Statistics */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-2xl font-bold text-gray-900">{adminItems.length}</div>
+                      <p className="text-xs text-gray-500">총 분실물</p>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-2xl font-bold text-blue-600">
+                        {adminItems.filter(item => item.status === "습득 보관중").length}
+                      </div>
+                      <p className="text-xs text-gray-500">보관중</p>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-2xl font-bold text-orange-600">
+                        {getOverdueItems().length}
+                      </div>
+                      <p className="text-xs text-gray-500">7일 초과</p>
+                    </CardContent>
+                  </Card>
+                  <Card>
+                    <CardContent className="p-4">
+                      <div className="text-2xl font-bold text-green-600">
+                        {adminItems.filter(item => item.status === "주인 찾음").length}
+                      </div>
+                      <p className="text-xs text-gray-500">해결됨</p>
+                    </CardContent>
+                  </Card>
                 </div>
+
+                {/* Lost Items Table */}
+                <div>
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-lg font-medium">분실물 목록</h3>
+                    <Badge variant="outline">
+                      {selectedDistrict ? selectedDistrict : "전체 지역"}
+                    </Badge>
+                  </div>
+                  
+                  <div className="border rounded-lg overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>물품명</TableHead>
+                          <TableHead>습득장소</TableHead>
+                          <TableHead>습득일자</TableHead>
+                          <TableHead>경과일수</TableHead>
+                          <TableHead>상태</TableHead>
+                          <TableHead>연락처</TableHead>
+                          <TableHead>관리</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {adminItems.map((item) => {
+                          const daysSinceFound = Math.floor(
+                            (new Date().getTime() - new Date(item.foundDate).getTime()) / (1000 * 3600 * 24)
+                          );
+                          
+                          return (
+                            <TableRow key={item.id}>
+                              <TableCell className="font-medium">{item.title}</TableCell>
+                              <TableCell>{item.location}</TableCell>
+                              <TableCell>{item.foundDate}</TableCell>
+                              <TableCell>
+                                <span className={daysSinceFound > 7 ? "text-red-600 font-medium" : ""}>
+                                  {daysSinceFound}일
+                                </span>
+                              </TableCell>
+                              <TableCell>
+                                <Badge className={getStatusBadgeColor(item.status)}>
+                                  {item.status}
+                                </Badge>
+                              </TableCell>
+                              <TableCell>{item.contact}</TableCell>
+                              <TableCell>
+                                <Select 
+                                  value={item.status} 
+                                  onValueChange={(value) => handleStatusChange(item.id, value)}
+                                >
+                                  <SelectTrigger className="w-[160px]">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="습득 보관중">습득 보관중</SelectItem>
+                                    <SelectItem value="주인 찾음">주인 찾음</SelectItem>
+                                    <SelectItem value="경찰서 이관">경찰서 이관</SelectItem>
+                                    <SelectItem value="유실물센터 이관">유실물센터 이관</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </div>
+
+                {/* Overdue Items Alert */}
+                {getOverdueItems().length > 0 && (
+                  <Card className="border-orange-200 bg-orange-50">
+                    <CardHeader>
+                      <CardTitle className="text-orange-800 text-lg">
+                        ⚠️ 처리 필요 분실물 ({getOverdueItems().length}개)
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-orange-700 text-sm mb-4">
+                        다음 분실물들은 습득한지 7일이 넘어 유실물센터로 이관이 필요합니다.
+                      </p>
+                      <div className="space-y-2">
+                        {getOverdueItems().map((item) => (
+                          <div key={item.id} className="flex justify-between items-center bg-white p-3 rounded border">
+                            <div>
+                              <span className="font-medium">{item.title}</span>
+                              <span className="text-gray-500 text-sm ml-2">({item.location})</span>
+                            </div>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => handleStatusChange(item.id, "유실물센터 이관")}
+                            >
+                              센터 이관
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -600,7 +835,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-gray-500">
             <p className="mb-2">© 2024 FindUs. 분실물을 함께 찾아가는 서비스</p>
-            <p className="text-sm">전국 주요 장소 기반 분실물 통합 검색 서비스</p>
+            <p className="text-sm">서울 전 지역 기반 분실물 통합 검색 서비스</p>
           </div>
         </div>
       </footer>
