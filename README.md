@@ -1,73 +1,95 @@
-# Welcome to your Lovable project
+# 🧭 FindUs
 
-## Project info
+> **우리를 함께 찾자, FindUs!**  
+> 방문 장소 기반으로 분실자와 소지자를 연결해주는 분실물 중개 서비스
 
-**URL**: https://lovable.dev/projects/e7c423b6-b5e9-4051-bb3d-901ddf434f93
+🔗 **배포 URL**: [https://find-us-prototype.lovable.app/](https://find-us-prototype.lovable.app/)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 📌 사용자로 시작하기
 
-**Use Lovable**
+### ❗ 문제점
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/e7c423b6-b5e9-4051-bb3d-901ddf434f93) and start prompting.
+- 분실물을 찾기 위해 에브리타임, 당근마켓 등 학교 및 지역 커뮤니티를 모두 뒤져야 함.
+- 여러 장소를 이동한 경우, 키워드 중심 검색은 비효율적임.
+- 유실물 소지자는 처리 절차를 몰라서 언제까지 보관해야 하는지 모름.
 
-Changes made via Lovable will be committed automatically to this repo.
+### 🎯 주제
 
-**Use your preferred IDE**
+> **방문 장소들을 취합하여 분실자와 소지자를 연결해주는 서비스**
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 🧩 서비스 이름
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+> **FindUs** (우리 것을 함께 찾자)
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🧍 사용자 정의
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+| 사용자  | 정의                 |
+|------|--------------------|
+| 분실자  | 유실물의 주인            |
+| 소지자  | 유실물을 습득한 사람        |
+| 공공기관 | 유실물 처리 기관 (예: 경찰청) |
 
-# Step 3: Install the necessary dependencies.
-npm i
+---
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 🔍 사용자 니즈
 
-**Edit a file directly in GitHub**
+| 사용자  | 니즈                                                  |
+|------|-----------------------------------------------------|
+| 분실자  | 방문 장소 기반 분실물 목록 조회<br>알림 설정 기능<br>소지자에게 연락을 보내는 메신저 |
+| 소지자  | 유실물 등록<br>분실자와의 메신저 기능<br>유실물 처리 절차 방식 선택           |
+| 공공기관 | 유실물 상태 모니터링<br>등록 유실물의 처리 절차 상태 조회<br>전국 유실물 모니터링   |
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## 👤 페르소나
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### 👨‍🎓 분실자: 이학생 (20세, 대학생)
 
-## What technologies are used for this project?
+- **목표**: 어디서 물건을 잃어버렸는지 몰라 홍대역, 신촌역 모두의 유실물을 알고 싶다.
+- **니즈**: 방문 장소 리스트 기반 분실물 목록 조회, 검색 실패 시 알림 설정
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### 👩‍👧 소지자: 지나삼 (40세, 주부)
 
-## How can I deploy this project?
+- **목표**: 대학가에서 주운 물건을 빠르게 등록하고 싶다.
+- **니즈**: 유실물 등록, 유실물 처리 절차 방식 선택
 
-Simply open [Lovable](https://lovable.dev/projects/e7c423b6-b5e9-4051-bb3d-901ddf434f93) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+### 👮 공공기관: 김경찰 (31세, 경찰)
 
-Yes, you can!
+- **목표**: 유실물 처리 과정 모니터링 및 센터로 이관
+- **니즈**: 전 지역 유실물 모니터링, 유실물 상태 조회
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+---
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📖 사용자 시나리오
+
+| 페르소나 | 시나리오                                                                                                  | 요구사항                                                                |
+|------|-------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| 분실자  | 이학생은 데이트 후 팔찌를 잃어버림. 홍대역, 식당, 신촌역을 방문 장소로 추가하고 검색했지만 결과 없음. 알림 설정 후 며칠 뒤 알림을 받고 소지자에게 메신저를 보내 물건을 찾음. | 1. 방문 장소 기반 유실물 조회<br>2. 알림 설정 기능<br>3. 소지자와의 메신저 기능                |
+| 소지자  | 지나삼은 대학가에서 지갑을 주워 FindUs에 유실물을 등록. 며칠 후 분실자에게 메신저를 받고 경찰서에 물건을 맡기고 상태를 '해결'로 변경.                      | 1. 유실물 등록<br>2. 메신저 기능<br>3. 상태 변경 기능                               |
+| 공공기관 | 김경찰은 관할 지역 유실물을 모니터링하고, 7일 넘은 유실물의 상태를 '센터 이동'으로 변경.                                                  | 1. 관할 지역 유실물 조회<br>2. 7일 이상 유실물 필터링<br>3. 소지자 연락처 확인<br>4. 상태 변경 기능 |
+
+---
+
+## ✅ 인수 조건 (Acceptance Criteria)
+
+| 사용자  | 인수 조건                                                                                                     |
+|------|-----------------------------------------------------------------------------------------------------------|
+| 분실자  | **Given**: 경로 추가 버튼을 통해 장소 리스트를 입력했을 때<br>**When**: 검색 버튼을 누르면<br>**Then**: 최신 날짜 순으로 유실물 목록이 조회된다.       |
+| 소지자  | **Given**: 오른쪽 상단의 등록 버튼 클릭 시<br>**When**: 제목, 장소, 카테고리, 연락처를 입력 후 등록 버튼 클릭<br>**Then**: 유실물이 성공적으로 등록된다. |
+| 공공기관 | **Given**: 기관 전용 웹사이트 접근<br>**When**: 관할 지역 선택 시<br>**Then**: 7일 이상 유실물 및 해당 지역 유실물이 조회된다.                |
+
+---
+
+## 💬 향후 발전 방향
+
+- 공공기관의 **유실물 꿀꺽 문제** 해결 (공항, 경찰 등)
+- 유실물법 시행령에 따라 **7일 이후 경찰청 이관** 또는 **나눔**으로 이어지는 정책 적용
+- 습득 센터, 이관 이력 등의 **상세 추적 정보 제공**
