@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, MapPin, Calendar, User, Bell, X, Camera, Phone, MessageCircle, ArrowUpDown, Filter } from 'lucide-react';
+import { Search, Plus, MapPin, Calendar, User, Bell, X, Camera, Phone, MessageCircle, ArrowUpDown, Filter, AlertTriangle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -92,83 +92,25 @@ const mockLostItems = [
   }
 ];
 
-// 서울 지역 주요 장소 데이터
+// 서울 지역 주요 장소 데이터 - 사전순으로 정렬
 const locations = [
-  // 강남구
-  "강남역", "신사역", "압구정로데오역", "선릉역", "역삼역", "논현역", "학동역", "강남구청역",
-  
-  // 서초구
-  "교대역", "서초역", "방배역", "사당역", "남부터미널역", "양재역", "매봉역",
-  
-  // 송파구
-  "잠실역", "석촌호수", "롯데월드타워", "송파구청", "방이역", "오금역", "개롱역",
-  
-  // 강동구
-  "강동역", "길동역", "굽은다리역", "명일역", "고덕역", "상일동역",
-  
-  // 중구
-  "명동역", "을지로입구역", "시청역", "종각역", "동대문역사문화공원역", "충무로역", "동국대입구역",
-  
-  // 종로구
-  "종로3가역", "안국역", "경복궁", "창덕궁", "인사동", "광화문", "종로5가역",
-  
-  // 용산구
-  "용산역", "이촌역", "한강진역", "이태원역", "녹사평역", "남영역",
-  
-  // 마포구
-  "홍대입구역", "신촌역", "합정역", "망원역", "마포구청역", "공덕역", "애오개역",
-  
-  // 서대문구
-  "서대문역", "충정로역", "홍제역", "무악재역", "독립문역",
-  
-  // 은평구
-  "연신내역", "구산역", "응암역", "역촌역", "불광역",
-  
-  // 성북구
-  "성신여대입구역", "한성대입구역", "미아역", "돈암동", "정릉역",
-  
-  // 강북구
-  "미아사거리역", "번동", "수유역", "강북구청", "4.19민주묘지역",
-  
-  // 도봉구
-  "도봉산역", "방학역", "창동역", "도봉구청",
-  
-  // 노원구
-  "노원역", "상계역", "중계역", "하계역", "공릉역", "태릉입구역",
-  
-  // 동대문구
-  "동대문역", "신설동역", "제기동역", "청량리역", "회기역", "외대앞역",
-  
-  // 중랑구
-  "상봉역", "면목역", "사가정역", "용마산역", "중화역",
-  
-  // 성동구
-  "왕십리역", "성수역", "건대입구역", "뚝섬역", "한양대역",
-  
-  // 광진구
-  "구의역", "강변역", "잠실나루역", "서울숲역", "압구정역",
-  
-  // 동작구
-  "사당역", "동작역", "총신대입구역", "상도역", "장승배기역", "신대방삼거리역",
-  
-  // 관악구
-  "신림역", "봉천역", "서울대입구역", "낙성대역", "사당역",
-  
-  // 금천구
-  "금천구청역", "가산디지털단지역", "독산역", "시흥대야역",
-  
-  // 구로구
-  "구로역", "신도림역", "구일역", "개봉역", "오류동역",
-  
-  // 영등포구
-  "영등포구청역", "당산역", "합정역", "여의나루역", "여의도역", "신길역",
-  
-  // 양천구
-  "목동역", "오목교역", "양평역", "신정네거리역", "까치산역",
-  
-  // 강서구
-  "김포공항", "발산역", "마곡나루역", "양천향교역", "가양역"
-];
+  "강남구청역", "강남역", "강동역", "강북구청", "개롱역", "건대입구역", "경복궁", 
+  "고덕역", "공덕역", "공릉역", "광화문", "구로역", "구산역", "구의역", "굽은다리역",
+  "금천구청역", "까치산역", "녹사평역", "논현역", "대야역", "도봉구청", "도봉산역",
+  "독립문역", "독산역", "돈암동", "동국대입구역", "동대문역", "동작역", "뚝섬역",
+  "면목역", "명동역", "명일역", "목동역", "무악재역", "미아사거리역", "미아역",
+  "방배역", "방이역", "방학역", "번동", "봉천역", "불광역", "사가정역", "사당역",
+  "상계역", "상도역", "상봉역", "상일동역", "서대문역", "서울대입구역", "서울숲역",
+  "서초역", "석촌호수", "선릉역", "성산역", "성수역", "성신여대입구역", "세종문화회관",
+  "수유역", "신길역", "신도림역", "신림역", "신사역", "신설동역", "신정네거리역",
+  "신촌역", "애오개역", "양재역", "양천향교역", "양평역", "여의나루역", "여의도역",
+  "연신내역", "영등포구청역", "오금역", "오목교역", "오류동역", "외대앞역", "용마산역",
+  "용산역", "을지로입구역", "이촌역", "이태원역", "인사동", "잠실나루역", "잠실역",
+  "장승배기역", "정릉역", "제기동역", "종각역", "종로3가역", "종로5가역", "중계역",
+  "중화역", "창덕궁", "창동역", "청량리역", "총신대입구역", "충무로역", "충정로역",
+  "태릉입구역", "하계역", "학동역", "한강진역", "한성대입구역", "한양대역", "합정역",
+  "홍대입구역", "홍제역", "회기역"
+].sort(); // 사전순 정렬
 
 // 서울 구별 데이터
 const seoulDistricts = [
@@ -189,8 +131,11 @@ const Index = () => {
   const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
   const [isNotificationDialogOpen, setIsNotificationDialogOpen] = useState(false);
   const [isChatDialogOpen, setIsChatDialogOpen] = useState(false);
+  const [isReportDialogOpen, setIsReportDialogOpen] = useState(false);
   const [selectedChatItem, setSelectedChatItem] = useState<any>(null);
+  const [selectedReportItem, setSelectedReportItem] = useState<any>(null);
   const [chatMessage, setChatMessage] = useState("");
+  const [reportMessage, setReportMessage] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [phoneError, setPhoneError] = useState("");
   
@@ -216,6 +161,14 @@ const Index = () => {
   const validatePhoneNumber = (phone: string) => {
     const phoneRegex = /^010-\d{4}-\d{4}$/;
     return phoneRegex.test(phone);
+  };
+
+  // 미래 날짜 검증 함수
+  const validateDate = (date: string) => {
+    const selectedDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // 시간 제거하고 날짜만 비교
+    return selectedDate <= today;
   };
 
   // 정렬 함수 - 상태 우선순위 추가
@@ -304,6 +257,16 @@ const Index = () => {
       return;
     }
 
+    // 미래 날짜 검증
+    if (!validateDate(registerForm.date)) {
+      toast({
+        title: "날짜 오류",
+        description: "미래 날짜는 선택할 수 없습니다. 오늘 이전 날짜를 선택해주세요.",
+        variant: "destructive"
+      });
+      return;
+    }
+
     // 연락처 검증
     if (registerForm.contact && !validatePhoneNumber(registerForm.contact)) {
       toast({
@@ -342,11 +305,14 @@ const Index = () => {
     }
 
     if (!validatePhoneNumber(phoneNumber)) {
-      setPhoneError("전화번호는 010-0000-0000 형식으로 입력해주세요.");
+      toast({
+        title: "전화번호 형식 오류",
+        description: "전화번호는 010-0000-0000 형식으로 입력해주세요.",
+        variant: "destructive"
+      });
       return;
     }
 
-    setPhoneError("");
     toast({
       title: "알림 설정 완료",
       description: `${phoneNumber}로 분실물 알림을 발송해드리겠습니다.`
@@ -359,6 +325,11 @@ const Index = () => {
   const handleChatOpen = (item: any) => {
     setSelectedChatItem(item);
     setIsChatDialogOpen(true);
+  };
+
+  const handleReportOpen = (item: any) => {
+    setSelectedReportItem(item);
+    setIsReportDialogOpen(true);
   };
 
   const handleChatSubmit = () => {
@@ -381,6 +352,27 @@ const Index = () => {
     setSelectedChatItem(null);
   };
 
+  const handleReportSubmit = () => {
+    if (!reportMessage.trim()) {
+      toast({
+        title: "입력 오류",
+        description: "신고 내용을 입력해주세요.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    toast({
+      title: "신고 접수 완료",
+      description: "의의제기가 정상적으로 접수되었습니다. 검토 후 연락드리겠습니다."
+    });
+
+    setIsReportDialogOpen(false);
+    setReportMessage("");
+    setSelectedReportItem(null);
+  };
+
+  // 조회 버튼 제거 - handleDistrictFilter 함수는 유지하되 자동 필터링으로 변경
   const handleDistrictFilter = () => {
     let filtered = mockLostItems;
     
@@ -464,10 +456,20 @@ const Index = () => {
     }
   };
 
-  // 상태 필터링 적용
+  // 연락처 표시 함수
+  const getContactButtonText = (item: any) => {
+    if (item.status === "경찰서 이관") {
+      return "경찰서 연락";
+    } else if (item.status === "유실물센터 이관") {
+      return "유실물센터 연락";
+    }
+    return "연락하기";
+  };
+
+  // 상태 필터링 적용 - 자동 필터링
   useEffect(() => {
     handleDistrictFilter();
-  }, [statusFilter]);
+  }, [statusFilter, selectedDistrict]);
 
   // 정렬이 변경될 때 검색 결과 다시 정렬
   useEffect(() => {
@@ -509,12 +511,8 @@ const Index = () => {
                         value={phoneNumber}
                         onChange={(e) => {
                           setPhoneNumber(e.target.value);
-                          setPhoneError("");
                         }}
                       />
-                      {phoneError && (
-                        <p className="text-xs text-red-500 mt-1">{phoneError}</p>
-                      )}
                       <p className="text-xs text-gray-500 mt-1">
                         선택한 장소에서 새로운 분실물이 등록되면 문자로 알려드립니다.
                       </p>
@@ -595,6 +593,7 @@ const Index = () => {
                           type="date"
                           value={registerForm.date}
                           onChange={(e) => setRegisterForm({...registerForm, date: e.target.value})}
+                          max={new Date().toISOString().split('T')[0]} // 오늘 날짜까지만 허용
                         />
                       </div>
                     </div>
@@ -787,7 +786,7 @@ const Index = () => {
                           <h3 className="font-medium text-gray-900 line-clamp-1">
                             {item.title}
                           </h3>
-                          <Badge className={`${getStatusBadgeColor(item.status)} cursor-default`}>
+                          <Badge className={`${getStatusBadgeColor(item.status)} hover:${getStatusBadgeColor(item.status)} cursor-default`}>
                             {item.status}
                           </Badge>
                         </div>
@@ -807,7 +806,7 @@ const Index = () => {
                           </div>
                         </div>
                         
-                        <div className="pt-3 border-t">
+                        <div className="pt-3 border-t space-y-2">
                           <Button 
                             variant="outline" 
                             size="sm" 
@@ -815,8 +814,21 @@ const Index = () => {
                             onClick={() => handleChatOpen(item)}
                           >
                             <MessageCircle className="w-4 h-4 mr-2" />
-                            연락하기
+                            {getContactButtonText(item)}
                           </Button>
+                          
+                          {/* 해결된 분실물에 대한 신고하기 버튼 */}
+                          {(item.status === "주인 찾음" || item.status === "경찰서 이관" || item.status === "유실물센터 이관") && (
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="w-full text-red-600 border-red-200 hover:bg-red-50"
+                              onClick={() => handleReportOpen(item)}
+                            >
+                              <AlertTriangle className="w-4 h-4 mr-2" />
+                              신고하기
+                            </Button>
+                          )}
                         </div>
                       </div>
                     </CardContent>
@@ -855,7 +867,7 @@ const Index = () => {
                     <Button 
                       onClick={autoUpdateStatus}
                       variant="outline"
-                      className="bg-white hover:bg-gray-50 border-gray-300"
+                      className="bg-gray-50 hover:bg-gray-100 border-gray-300 text-gray-700"
                     >
                       상태 자동 업데이트
                       <span className="text-xs text-gray-500 ml-2">(7일 초과 → 센터 이관)</span>
@@ -901,10 +913,6 @@ const Index = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <Button onClick={handleDistrictFilter} className="bg-gray-900 hover:bg-gray-800">
-                    <Filter className="w-4 h-4 mr-2" />
-                    조회
-                  </Button>
                 </div>
 
                 {/* Statistics Cards */}
@@ -980,7 +988,7 @@ const Index = () => {
                                 </span>
                               </TableCell>
                               <TableCell>
-                                <Badge className={getStatusBadgeColor(item.status)}>
+                                <Badge className={`${getStatusBadgeColor(item.status)} cursor-default`}>
                                   {item.status}
                                 </Badge>
                               </TableCell>
@@ -990,7 +998,7 @@ const Index = () => {
                                   value={item.status} 
                                   onValueChange={(value) => handleStatusChange(item.id, value)}
                                 >
-                                  <SelectTrigger className="w-[160px] hover:bg-transparent">
+                                  <SelectTrigger className="w-[160px]">
                                     <SelectValue />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -1063,6 +1071,12 @@ const Index = () => {
               <div className="bg-gray-50 p-3 rounded-lg">
                 <h4 className="font-medium text-sm">{selectedChatItem.title}</h4>
                 <p className="text-xs text-gray-500 mt-1">{selectedChatItem.location}</p>
+                {(selectedChatItem.status === "경찰서 이관" || selectedChatItem.status === "유실물센터 이관") && (
+                  <p className="text-xs text-blue-600 mt-1 font-medium">
+                    ℹ️ 이 분실물은 {selectedChatItem.status === "경찰서 이관" ? "경찰서" : "유실물센터"}로 이관되었습니다. 
+                    연락처: {selectedChatItem.contact}
+                  </p>
+                )}
               </div>
               
               <div>
@@ -1084,6 +1098,49 @@ const Index = () => {
                 <Button onClick={handleChatSubmit} className="flex-1">
                   <MessageCircle className="w-4 h-4 mr-2" />
                   전송
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Report Dialog - 신고하기 기능 */}
+      <Dialog open={isReportDialogOpen} onOpenChange={setIsReportDialogOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>분실물 신고하기</DialogTitle>
+          </DialogHeader>
+          {selectedReportItem && (
+            <div className="space-y-4">
+              <div className="bg-red-50 p-3 rounded-lg border border-red-200">
+                <h4 className="font-medium text-sm text-red-800">{selectedReportItem.title}</h4>
+                <p className="text-xs text-red-600 mt-1">{selectedReportItem.location}</p>
+                <p className="text-xs text-red-600 mt-1">상태: {selectedReportItem.status}</p>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  신고 사유
+                </label>
+                <Textarea
+                  placeholder="분실물 처리에 대한 의의제기 내용을 상세히 작성해주세요..."
+                  value={reportMessage}
+                  onChange={(e) => setReportMessage(e.target.value)}
+                  rows={4}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  신고 내용은 관리자에게 전달되어 검토됩니다.
+                </p>
+              </div>
+              
+              <div className="flex space-x-2">
+                <Button variant="outline" onClick={() => setIsReportDialogOpen(false)} className="flex-1">
+                  취소
+                </Button>
+                <Button onClick={handleReportSubmit} className="flex-1 bg-red-600 hover:bg-red-700">
+                  <AlertTriangle className="w-4 h-4 mr-2" />
+                  신고하기
                 </Button>
               </div>
             </div>
