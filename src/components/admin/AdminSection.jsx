@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { User } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -45,7 +44,7 @@ export const AdminSection = ({
         <div className="flex justify-between items-center">
           <CardTitle className="flex items-center text-xl">
             <User className="w-5 h-5 mr-2" />
-            관리자 모니터링 대시보드
+            관리자 대시보드
           </CardTitle>
           <div className="flex space-x-2">
             <Button 
