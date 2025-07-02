@@ -81,7 +81,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button size="sm" className="bg-black text-white hover:bg-gray-800">
+        <Button size="sm" variant="default" className="bg-black text-white hover:bg-gray-800" style={{backgroundColor: '#000', color: '#fff'}}>
           <Plus className="w-4 h-4 mr-2" />
           분실물 등록
         </Button>

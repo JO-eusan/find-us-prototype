@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Search, Bell, MapPin, Calendar, MessageCircle, AlertTriangle, ArrowUpDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -8,11 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const getStatusBadgeColor = (status) => {
   switch (status) {
-    case "습득 보관중": return "bg-blue-100 text-blue-800";
-    case "주인 찾음": return "bg-green-100 text-green-800";
-    case "경찰서 이관": return "bg-gray-100 text-gray-800";
-    case "유실물센터 이관": return "bg-orange-100 text-orange-800";
-    default: return "bg-gray-100 text-gray-800";
+    case "습득 보관중": return "text-blue-600";
+    case "주인 찾음": return "text-green-600";
+    case "경찰서 이관": return "text-orange-500";
+    case "유실물센터 이관": return "text-gray-600";
+    default: return "text-gray-600";
   }
 };
 
