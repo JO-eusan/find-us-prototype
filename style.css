@@ -1,0 +1,80 @@
+body {
+  font-family: 'Pretendard', sans-serif;
+  background: #f7f7f7;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+header {
+  background: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 24px 0 0 0;
+  text-align: center;
+}
+h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+  letter-spacing: 2px;
+}
+nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+.tab {
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 8px 20px;
+  border-radius: 20px 20px 0 0;
+  background: #f0f0f0;
+  color: #888;
+  transition: background 0.2s, color 0.2s;
+}
+.tab.active {
+  background: #222;
+  color: #fff;
+}
+main {
+  max-width: 480px;
+  margin: 40px auto 0 auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  padding: 32px 24px 40px 24px;
+}
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+}
+input, select, textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px;
+  border: 1px solid #d0d0d0;
+  border-radius: 8px;
+  background: #fafafa;
+  margin-bottom: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #222;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+button:hover {
+  background: #444;
+} 
