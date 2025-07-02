@@ -204,7 +204,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
             </div>
           </div>
 
-          <div className="flex justify-end gap-4 mt-6">
+          <div className="flex flex-row gap-4 justify-end mt-6">
             <Button variant="outline" onClick={() => onOpenChange(false)} className="rounded-lg">
               취소
             </Button>

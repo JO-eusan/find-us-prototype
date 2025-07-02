@@ -57,7 +57,7 @@ export const ReportDialog = ({ isOpen, onOpenChange, selectedItem }) => {
               </p>
             </div>
             
-            <div className="flex space-x-2">
+            <div className="flex flex-row gap-4 mt-4">
               <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1 rounded-lg">
                 취소
               </Button>
