@@ -9,11 +9,11 @@ import { seoulDistricts } from "@/data/mockData";
 
 const getStatusBadgeColor = (status) => {
   switch (status) {
-    case "습득 보관중": return "text-blue-600";
-    case "주인 찾음": return "text-green-600";
-    case "경찰서 이관": return "text-orange-500";
-    case "유실물센터 이관": return "text-gray-600";
-    default: return "text-gray-600";
+    case "습득 보관중": return "text-blue-600 bg-white border border-gray-200 px-3 py-1 rounded-full";
+    case "주인 찾음": return "text-green-600 bg-white border border-gray-200 px-3 py-1 rounded-full";
+    case "경찰서 이관": return "text-orange-500 bg-white border border-gray-200 px-3 py-1 rounded-full";
+    case "유실물센터 이관": return "text-gray-600 bg-white border border-gray-200 px-3 py-1 rounded-full";
+    default: return "text-gray-600 bg-white border border-gray-200 px-3 py-1 rounded-full";
   }
 };
 

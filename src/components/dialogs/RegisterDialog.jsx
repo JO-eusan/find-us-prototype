@@ -86,13 +86,13 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
           분실물 등록
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-2xl">
-        <DialogHeader>
+      <DialogContent className="max-w-2xl p-8 space-y-6">
+        <DialogHeader className="mb-4">
           <DialogTitle>분실물 등록하기</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
-            <div>
+            <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 물품명 *
               </label>
@@ -102,7 +102,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
                 onChange={(e) => setRegisterForm({...registerForm, title: e.target.value})}
               />
             </div>
-            <div>
+            <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 카테고리 *
               </label>
@@ -122,7 +122,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div>
+            <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 습득 장소 *
               </label>
@@ -139,7 +139,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
                 </SelectContent>
               </Select>
             </div>
-            <div>
+            <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 습득 날짜 *
               </label>
@@ -152,7 +152,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
             </div>
           </div>
 
-          <div>
+          <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               상세 설명
             </label>
@@ -164,7 +164,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
             />
           </div>
 
-          <div>
+          <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               연락처
             </label>
@@ -179,7 +179,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
             </p>
           </div>
 
-          <div>
+          <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               사진 첨부
             </label>
@@ -204,9 +204,15 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
             </div>
           </div>
 
-          <Button onClick={handleSubmit} className="w-full">
-            등록하기
-          </Button>
+          <div className="flex justify-end gap-4 mt-6">
+            <Button variant="outline" onClick={() => onOpenChange(false)} className="rounded-lg">
+              취소
+            </Button>
+            <Button size="sm" variant="default" className="bg-black text-white hover:bg-gray-800 rounded-lg px-6 py-2 font-semibold" style={{backgroundColor: '#000', color: '#fff'}}>
+              <Plus className="w-4 h-4 mr-2" />
+              분실물 등록
+            </Button>
+          </div>
         </div>
       </DialogContent>
     </Dialog>

@@ -113,7 +113,7 @@ export const SearchSection = ({
             onChange={(e) => onSearchKeywordChange(e.target.value)}
             className="flex-1 rounded-lg px-4 py-2"
           />
-          <Button onClick={onSearch} className="bg-blue-600 text-white hover:bg-blue-700 rounded-lg px-6 py-2 font-semibold shadow">
+          <Button onClick={onSearch} className="bg-black text-white hover:bg-gray-800 rounded-lg px-6 py-2 font-semibold shadow">
             <Search className="w-4 h-4 mr-2" />
             검색
           </Button>
