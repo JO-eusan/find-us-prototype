@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Search, Plus, MapPin, Calendar, User, Bell, X, Camera, Phone, MessageCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, Plus, MapPin, Calendar, User, Bell, X, Camera, Phone, MessageCircle, ArrowUpDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -184,6 +184,7 @@ const Index = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [locationSearchKeyword, setLocationSearchKeyword] = useState("");
   const [filteredItems, setFilteredItems] = useState(mockLostItems);
+  const [sortBy, setSortBy] = useState("latest");
   const [activeTab, setActiveTab] = useState("search");
   const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
   const [isNotificationDialogOpen, setIsNotificationDialogOpen] = useState(false);
@@ -191,6 +192,7 @@ const Index = () => {
   const [selectedChatItem, setSelectedChatItem] = useState<any>(null);
   const [chatMessage, setChatMessage] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneError, setPhoneError] = useState("");
   
   // 관리자 페이지 상태
   const [selectedDistrict, setSelectedDistrict] = useState("all");
@@ -208,6 +210,26 @@ const Index = () => {
     contact: "",
     image: null as File | null
   });
+
+  // 전화번호 포맷 검증 함수
+  const validatePhoneNumber = (phone: string) => {
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    return phoneRegex.test(phone);
+  };
+
+  // 정렬 함수
+  const sortItems = (items: any[], sortType: string) => {
+    switch (sortType) {
+      case "latest":
+        return [...items].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      case "oldest":
+        return [...items].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      case "location":
+        return [...items].sort((a, b) => a.location.localeCompare(b.location));
+      default:
+        return items;
+    }
+  };
 
   // 장소 필터링
   const filteredLocations = locations.filter(location =>
@@ -242,6 +264,8 @@ const Index = () => {
       );
     }
     
+    // 정렬 적용
+    filtered = sortItems(filtered, sortBy);
     setFilteredItems(filtered);
   };
 
@@ -250,6 +274,16 @@ const Index = () => {
       toast({
         title: "입력 오류",
         description: "필수 항목을 모두 입력해주세요.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // 연락처 검증
+    if (registerForm.contact && !validatePhoneNumber(registerForm.contact)) {
+      toast({
+        title: "전화번호 형식 오류",
+        description: "전화번호는 010-0000-0000 형식으로 입력해주세요.",
         variant: "destructive"
       });
       return;
@@ -282,6 +316,12 @@ const Index = () => {
       return;
     }
 
+    if (!validatePhoneNumber(phoneNumber)) {
+      setPhoneError("전화번호는 010-0000-0000 형식으로 입력해주세요.");
+      return;
+    }
+
+    setPhoneError("");
     toast({
       title: "알림 설정 완료",
       description: `${phoneNumber}로 분실물 알림을 발송해드리겠습니다.`
@@ -328,6 +368,33 @@ const Index = () => {
     setAdminItems(filtered);
   };
 
+  // 자동 상태 업데이트 함수
+  const autoUpdateStatus = () => {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    
+    const updatedItems = adminItems.map(item => {
+      const foundDate = new Date(item.foundDate);
+      if (foundDate < sevenDaysAgo && item.status === "습득 보관중") {
+        return { ...item, status: "유실물센터 이관" };
+      }
+      return item;
+    });
+    
+    setAdminItems(updatedItems);
+    
+    const autoUpdatedCount = updatedItems.filter((item, index) => 
+      item.status !== adminItems[index].status
+    ).length;
+    
+    if (autoUpdatedCount > 0) {
+      toast({
+        title: "자동 상태 업데이트",
+        description: `${autoUpdatedCount}개의 7일 초과 분실물이 유실물센터로 자동 이관되었습니다.`
+      });
+    }
+  };
+
   const getOverdueItems = () => {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -361,6 +428,13 @@ const Index = () => {
     }
   };
 
+  // 정렬이 변경될 때 검색 결과 다시 정렬
+  useEffect(() => {
+    if (filteredItems.length > 0) {
+      setFilteredItems(sortItems(filteredItems, sortBy));
+    }
+  }, [sortBy]);
+
   return (
     <div className="min-h-screen bg-background font-pretendard">
       {/* Header */}
@@ -392,8 +466,14 @@ const Index = () => {
                         type="tel"
                         placeholder="010-0000-0000"
                         value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        onChange={(e) => {
+                          setPhoneNumber(e.target.value);
+                          setPhoneError("");
+                        }}
                       />
+                      {phoneError && (
+                        <p className="text-xs text-red-500 mt-1">{phoneError}</p>
+                      )}
                       <p className="text-xs text-gray-500 mt-1">
                         선택한 장소에서 새로운 분실물이 등록되면 문자로 알려드립니다.
                       </p>
@@ -500,6 +580,9 @@ const Index = () => {
                         value={registerForm.contact}
                         onChange={(e) => setRegisterForm({...registerForm, contact: e.target.value})}
                       />
+                      <p className="text-xs text-gray-500 mt-1">
+                        010-0000-0000 형식으로 입력해주세요
+                      </p>
                     </div>
 
                     <div>
@@ -638,7 +721,19 @@ const Index = () => {
                 <h2 className="text-xl font-semibold">
                   검색 결과 ({filteredItems.length}개)
                 </h2>
-                <span className="text-sm text-gray-500">최신순 정렬</span>
+                <div className="flex items-center space-x-2">
+                  <ArrowUpDown className="w-4 h-4 text-gray-500" />
+                  <Select value={sortBy} onValueChange={setSortBy}>
+                    <SelectTrigger className="w-[140px]">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="latest">최신순</SelectItem>
+                      <SelectItem value="oldest">오래된순</SelectItem>
+                      <SelectItem value="location">장소별</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -709,10 +804,18 @@ const Index = () => {
             {/* Admin Section */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center text-xl">
-                  <User className="w-5 h-5 mr-2" />
-                  관리자 모니터링 대시보드
-                </CardTitle>
+                <div className="flex justify-between items-center">
+                  <CardTitle className="flex items-center text-xl">
+                    <User className="w-5 h-5 mr-2" />
+                    관리자 모니터링 대시보드
+                  </CardTitle>
+                  <Button 
+                    onClick={autoUpdateStatus}
+                    className="bg-blue-600 hover:bg-blue-700"
+                  >
+                    상태 자동 업데이트
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent className="space-y-6">
                 {/* District Selection */}
@@ -823,7 +926,7 @@ const Index = () => {
                                   value={item.status} 
                                   onValueChange={(value) => handleStatusChange(item.id, value)}
                                 >
-                                  <SelectTrigger className="w-[160px]">
+                                  <SelectTrigger className="w-[160px] hover:bg-transparent">
                                     <SelectValue />
                                   </SelectTrigger>
                                   <SelectContent>
