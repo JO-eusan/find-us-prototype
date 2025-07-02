@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Search, MapPin, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -22,21 +21,21 @@ export const SearchSection = ({
   );
 
   return (
-    <Card className="animate-fade-in">
-      <CardHeader>
-        <CardTitle className="flex items-center text-xl">
+    <Card className="animate-fade-in rounded-xl shadow-md">
+      <CardHeader className="pb-2">
+        <CardTitle className="flex items-center text-xl mb-2">
           <Search className="w-5 h-5 mr-2" />
           방문 장소 기반 분실물 검색
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-6 p-6">
         {/* Selected Locations Display */}
         {selectedLocations.length > 0 && (
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               선택된 장소
             </label>
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2">
               {selectedLocations.map((location) => (
                 <div
                   key={location}
@@ -58,21 +57,19 @@ export const SearchSection = ({
         )}
 
         {/* Location Selection */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             방문했던 장소를 선택해주세요 (서울 지역)
           </label>
-          
           {/* Location Search */}
-          <div className="mb-4">
+          <div className="mb-3">
             <Input
               placeholder="장소 검색 (예: 강남역, 홍대)"
               value={locationSearchKeyword}
               onChange={(e) => onLocationSearchChange(e.target.value)}
-              className="w-full"
+              className="w-full rounded-lg px-4 py-2"
             />
           </div>
-
           <div style={{ maxHeight: '160px', overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '12px' }}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '8px' }}>
               {filteredLocations.map((location) => (
@@ -109,14 +106,14 @@ export const SearchSection = ({
         </div>
 
         {/* Search Input */}
-        <div className="flex space-x-3">
+        <div className="flex space-x-3 items-end">
           <Input
             placeholder="분실물 키워드를 입력하세요 (예: 아이폰, 지갑, 팔찌)"
             value={searchKeyword}
             onChange={(e) => onSearchKeywordChange(e.target.value)}
-            className="flex-1"
+            className="flex-1 rounded-lg px-4 py-2"
           />
-          <Button onClick={onSearch} className="bg-gray-900 hover:bg-gray-800">
+          <Button onClick={onSearch} className="bg-blue-600 text-white hover:bg-blue-700 rounded-lg px-6 py-2 font-semibold shadow">
             <Search className="w-4 h-4 mr-2" />
             검색
           </Button>

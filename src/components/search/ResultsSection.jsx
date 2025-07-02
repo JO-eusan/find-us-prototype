@@ -7,11 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 const getStatusBadgeColor = (status) => {
   switch (status) {
-    case "습득 보관중": return "text-blue-600";
-    case "주인 찾음": return "text-green-600";
-    case "경찰서 이관": return "text-orange-500";
-    case "유실물센터 이관": return "text-gray-600";
-    default: return "text-gray-600";
+    case "습득 보관중": return "text-blue-600 bg-white";
+    case "주인 찾음": return "text-green-600 bg-white";
+    case "경찰서 이관": return "text-orange-500 bg-white";
+    case "유실물센터 이관": return "text-gray-600 bg-white";
+    default: return "text-gray-600 bg-white";
   }
 };
 
@@ -56,56 +56,52 @@ export const ResultsSection = ({
 
       <div style={{ display: 'grid', gap: '16px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
         {items.map((item) => (
-          <Card key={item.id} style={{ cursor: 'pointer', transition: 'box-shadow 0.3s' }}
+          <Card key={item.id} className="rounded-xl shadow-md" style={{ cursor: 'pointer', transition: 'box-shadow 0.3s', marginBottom: '12px' }}
             onMouseEnter={(e) => e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)'}
             onMouseLeave={(e) => e.currentTarget.style.boxShadow = '0 1px 3px 0 rgba(0, 0, 0, 0.1)'}
           >
-            <CardContent className="p-6">
+            <CardContent className="p-6 space-y-4">
               <div className="space-y-3">
-                <div className="flex justify-between items-start">
+                <div className="flex justify-between items-start mb-2">
                   <h3 style={{ fontWeight: '500', color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {item.title}
                   </h3>
                   <Badge 
-                    className={`${getStatusBadgeColor(item.status)} cursor-default`}
-                    style={{ pointerEvents: 'none' }}
+                    className={`${getStatusBadgeColor(item.status)} cursor-default border border-gray-200 px-3 py-1 rounded-full`}
+                    style={{ pointerEvents: 'none', background: '#fff' }}
                   >
                     {item.status}
                   </Badge>
                 </div>
-                
-                <p style={{ fontSize: '14px', color: '#4b5563', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
+                <p className="text-sm text-gray-600 mb-2" style={{ overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>
                   {item.description}
                 </p>
-                
-                <div style={{ fontSize: '12px', color: '#6b7280', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                <div className="text-xs text-gray-500 flex flex-col gap-2 mb-2">
+                  <div className="flex items-center">
                     <MapPin className="w-3 h-3 mr-1" />
                     {item.location}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div className="flex items-center">
                     <Calendar className="w-3 h-3 mr-1" />
                     {item.date}
                   </div>
                 </div>
-                
-                <div style={{ paddingTop: '12px', borderTop: '1px solid #e5e7eb', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <div className="pt-3 border-t border-gray-200 flex flex-col gap-2">
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="w-full"
+                    className="w-full rounded-lg"
                     onClick={() => onChatOpen(item)}
                   >
                     <MessageCircle className="w-4 h-4 mr-2" />
                     {getContactButtonText(item)}
                   </Button>
-                  
-                  {/* 해결된 분실물에 대한 신고하기 버튼 */}
+                  {/* 신고하기 버튼 */}
                   {(item.status === "주인 찾음" || item.status === "경찰서 이관" || item.status === "유실물센터 이관") && (
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="w-full text-red-600 border-red-200 hover:bg-red-50"
+                      className="w-full rounded-lg bg-white text-red-600 border-red-200 hover:bg-red-50 font-semibold"
                       onClick={() => onReportOpen(item)}
                     >
                       <AlertTriangle className="w-4 h-4 mr-2" />

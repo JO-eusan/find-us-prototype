@@ -58,10 +58,10 @@ export const ReportDialog = ({ isOpen, onOpenChange, selectedItem }) => {
             </div>
             
             <div className="flex space-x-2">
-              <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
+              <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1 rounded-lg">
                 취소
               </Button>
-              <Button onClick={handleSubmit} className="flex-1 bg-red-600 text-white hover:bg-red-700">
+              <Button onClick={handleSubmit} className="flex-1 bg-white text-red-600 border border-red-200 hover:bg-red-50 rounded-lg font-semibold" style={{boxShadow: 'none'}}>
                 <AlertTriangle className="w-4 h-4 mr-2" />
                 신고하기
               </Button>
