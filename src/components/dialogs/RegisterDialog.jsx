@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -82,7 +81,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button size="sm" className="bg-gray-900 hover:bg-gray-800">
+        <Button size="sm" className="bg-black text-white hover:bg-gray-800">
           <Plus className="w-4 h-4 mr-2" />
           분실물 등록
         </Button>

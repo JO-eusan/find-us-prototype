@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -62,7 +61,7 @@ export const ReportDialog = ({ isOpen, onOpenChange, selectedItem }) => {
               <Button variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
                 취소
               </Button>
-              <Button onClick={handleSubmit} className="flex-1 bg-red-600 hover:bg-red-700">
+              <Button onClick={handleSubmit} className="flex-1 bg-red-600 text-white hover:bg-red-700">
                 <AlertTriangle className="w-4 h-4 mr-2" />
                 신고하기
               </Button>
