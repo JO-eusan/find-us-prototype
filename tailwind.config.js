@@ -1,13 +1,17 @@
-
-import type { Config } from "tailwindcss";
-
-export default {
+module.exports = {
 	darkMode: ["class"],
 	content: [
 		"./pages/**/*.{ts,tsx}",
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
+	],
+	safelist: [
+		"bg-blue-500", "text-white",
+		"bg-green-500",
+		"bg-orange-400",
+		"bg-gray-400",
+		"bg-red-600", "bg-red-700"
 	],
 	prefix: "",
 	theme: {
@@ -114,4 +118,4 @@ export default {
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+}; 
