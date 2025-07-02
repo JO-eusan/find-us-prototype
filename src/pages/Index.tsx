@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Plus, MapPin, Calendar, User, Bell, X, Camera, Phone, MessageCircle, ArrowUpDown } from 'lucide-react';
+import { Search, Plus, MapPin, Calendar, User, Bell, X, Camera, Phone, MessageCircle, ArrowUpDown, Filter } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -184,7 +184,7 @@ const Index = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [locationSearchKeyword, setLocationSearchKeyword] = useState("");
   const [filteredItems, setFilteredItems] = useState(mockLostItems);
-  const [sortBy, setSortBy] = useState("latest");
+  const [sortBy, setSortBy] = useState("status-priority");
   const [activeTab, setActiveTab] = useState("search");
   const [isRegisterDialogOpen, setIsRegisterDialogOpen] = useState(false);
   const [isNotificationDialogOpen, setIsNotificationDialogOpen] = useState(false);
@@ -197,6 +197,7 @@ const Index = () => {
   // 관리자 페이지 상태
   const [selectedDistrict, setSelectedDistrict] = useState("all");
   const [adminItems, setAdminItems] = useState(mockLostItems);
+  const [statusFilter, setStatusFilter] = useState("all");
   
   const { toast } = useToast();
 
@@ -217,15 +218,39 @@ const Index = () => {
     return phoneRegex.test(phone);
   };
 
-  // 정렬 함수
+  // 정렬 함수 - 상태 우선순위 추가
   const sortItems = (items: any[], sortType: string) => {
     switch (sortType) {
+      case "status-priority":
+        return [...items].sort((a, b) => {
+          // 보관중 > 경찰서 이관 > 유실물센터 이관 > 주인 찾음 순서
+          const statusPriority = {
+            "습득 보관중": 1,
+            "경찰서 이관": 2,
+            "유실물센터 이관": 3,
+            "주인 찾음": 4
+          };
+          const priorityA = statusPriority[a.status as keyof typeof statusPriority] || 5;
+          const priorityB = statusPriority[b.status as keyof typeof statusPriority] || 5;
+          
+          if (priorityA !== priorityB) {
+            return priorityA - priorityB;
+          }
+          // 같은 상태면 최신순
+          return new Date(b.date).getTime() - new Date(a.date).getTime();
+        });
       case "latest":
         return [...items].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       case "oldest":
         return [...items].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-      case "location":
-        return [...items].sort((a, b) => a.location.localeCompare(b.location));
+      case "nearby":
+        // 선택된 장소와 가까운 순서로 정렬 (간단한 구현)
+        return [...items].sort((a, b) => {
+          if (selectedLocations.length === 0) return 0;
+          const aMatch = selectedLocations.some(loc => a.location.includes(loc)) ? 1 : 0;
+          const bMatch = selectedLocations.some(loc => b.location.includes(loc)) ? 1 : 0;
+          return bMatch - aMatch;
+        });
       default:
         return items;
     }
@@ -357,18 +382,24 @@ const Index = () => {
   };
 
   const handleDistrictFilter = () => {
-    if (selectedDistrict === "all") {
-      setAdminItems(mockLostItems);
-      return;
+    let filtered = mockLostItems;
+    
+    // 지역 필터링
+    if (selectedDistrict !== "all") {
+      filtered = filtered.filter(item => 
+        item.location.includes(selectedDistrict)
+      );
     }
     
-    const filtered = mockLostItems.filter(item => 
-      item.location.includes(selectedDistrict)
-    );
+    // 상태 필터링
+    if (statusFilter !== "all") {
+      filtered = filtered.filter(item => item.status === statusFilter);
+    }
+    
     setAdminItems(filtered);
   };
 
-  // 자동 상태 업데이트 함수
+  // 자동 상태 업데이트 함수 - 명확한 설명 추가
   const autoUpdateStatus = () => {
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
@@ -389,8 +420,13 @@ const Index = () => {
     
     if (autoUpdatedCount > 0) {
       toast({
-        title: "자동 상태 업데이트",
-        description: `${autoUpdatedCount}개의 7일 초과 분실물이 유실물센터로 자동 이관되었습니다.`
+        title: "자동 상태 업데이트 완료",
+        description: `${autoUpdatedCount}개의 7일 초과 분실물이 "습득 보관중" → "유실물센터 이관"으로 자동 변경되었습니다.`
+      });
+    } else {
+      toast({
+        title: "자동 업데이트 확인 완료",
+        description: "7일 초과로 상태 변경이 필요한 분실물이 없습니다."
       });
     }
   };
@@ -428,12 +464,17 @@ const Index = () => {
     }
   };
 
+  // 상태 필터링 적용
+  useEffect(() => {
+    handleDistrictFilter();
+  }, [statusFilter]);
+
   // 정렬이 변경될 때 검색 결과 다시 정렬
   useEffect(() => {
     if (filteredItems.length > 0) {
       setFilteredItems(sortItems(filteredItems, sortBy));
     }
-  }, [sortBy]);
+  }, [sortBy, selectedLocations]);
 
   return (
     <div className="min-h-screen bg-background font-pretendard">
@@ -724,13 +765,14 @@ const Index = () => {
                 <div className="flex items-center space-x-2">
                   <ArrowUpDown className="w-4 h-4 text-gray-500" />
                   <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="w-[140px]">
+                    <SelectTrigger className="w-[160px]">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="status-priority">상태 우선순위</SelectItem>
                       <SelectItem value="latest">최신순</SelectItem>
                       <SelectItem value="oldest">오래된순</SelectItem>
-                      <SelectItem value="location">장소별</SelectItem>
+                      <SelectItem value="nearby">주변 분실물</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -745,7 +787,7 @@ const Index = () => {
                           <h3 className="font-medium text-gray-900 line-clamp-1">
                             {item.title}
                           </h3>
-                          <Badge className={getStatusBadgeColor(item.status)}>
+                          <Badge className={`${getStatusBadgeColor(item.status)} cursor-default`}>
                             {item.status}
                           </Badge>
                         </div>
@@ -809,16 +851,20 @@ const Index = () => {
                     <User className="w-5 h-5 mr-2" />
                     관리자 모니터링 대시보드
                   </CardTitle>
-                  <Button 
-                    onClick={autoUpdateStatus}
-                    className="bg-blue-600 hover:bg-blue-700"
-                  >
-                    상태 자동 업데이트
-                  </Button>
+                  <div className="flex space-x-2">
+                    <Button 
+                      onClick={autoUpdateStatus}
+                      variant="outline"
+                      className="bg-white hover:bg-gray-50 border-gray-300"
+                    >
+                      상태 자동 업데이트
+                      <span className="text-xs text-gray-500 ml-2">(7일 초과 → 센터 이관)</span>
+                    </Button>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* District Selection */}
+                {/* District and Status Selection */}
                 <div className="flex space-x-4 items-end">
                   <div className="flex-1">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -838,7 +884,25 @@ const Index = () => {
                       </SelectContent>
                     </Select>
                   </div>
+                  <div className="flex-1">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      상태 필터
+                    </label>
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="상태를 선택하세요" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">전체 상태</SelectItem>
+                        <SelectItem value="습득 보관중">습득 보관중</SelectItem>
+                        <SelectItem value="주인 찾음">주인 찾음</SelectItem>
+                        <SelectItem value="경찰서 이관">경찰서 이관</SelectItem>
+                        <SelectItem value="유실물센터 이관">유실물센터 이관</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Button onClick={handleDistrictFilter} className="bg-gray-900 hover:bg-gray-800">
+                    <Filter className="w-4 h-4 mr-2" />
                     조회
                   </Button>
                 </div>
