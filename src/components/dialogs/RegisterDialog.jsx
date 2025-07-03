@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -86,13 +87,13 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
           분실물 등록
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-lg bg-white rounded-2xl shadow-2xl px-12 py-10 space-y-8">
-        <DialogHeader className="mb-6">
-          <DialogTitle>분실물 등록하기</DialogTitle>
+      <DialogContent className="max-w-2xl bg-white rounded-2xl shadow-2xl">
+        <DialogHeader className="px-8 pt-8 pb-4">
+          <DialogTitle className="text-xl font-semibold">분실물 등록하기</DialogTitle>
         </DialogHeader>
-        <div className="space-y-6">
-          <div className="grid grid-cols-2 gap-6">
-            <div className="mb-6 px-2">
+        <div className="px-8 pb-8 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 물품명 *
               </label>
@@ -100,14 +101,15 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
                 placeholder="예: 아이폰 14 Pro"
                 value={registerForm.title}
                 onChange={(e) => setRegisterForm({...registerForm, title: e.target.value})}
+                className="h-11"
               />
             </div>
-            <div className="mb-6 px-2">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 카테고리 *
               </label>
               <Select value={registerForm.category} onValueChange={(value) => setRegisterForm({...registerForm, category: value})}>
-                <SelectTrigger>
+                <SelectTrigger className="h-11">
                   <SelectValue placeholder="카테고리 선택" />
                 </SelectTrigger>
                 <SelectContent>
@@ -120,13 +122,14 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
               </Select>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-6">
-            <div className="mb-6 px-2">
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 습득 장소 *
               </label>
               <Select value={registerForm.location} onValueChange={(value) => setRegisterForm({...registerForm, location: value})}>
-                <SelectTrigger>
+                <SelectTrigger className="h-11">
                   <SelectValue placeholder="장소 선택" />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
@@ -138,7 +141,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
                 </SelectContent>
               </Select>
             </div>
-            <div className="mb-6 px-2">
+            <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 습득 날짜 *
               </label>
@@ -147,10 +150,12 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
                 value={registerForm.date}
                 onChange={(e) => setRegisterForm({...registerForm, date: e.target.value})}
                 max={new Date().toISOString().split('T')[0]}
+                className="h-11"
               />
             </div>
           </div>
-          <div className="mb-6 px-2">
+          
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               상세 설명
             </label>
@@ -159,9 +164,11 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
               value={registerForm.description}
               onChange={(e) => setRegisterForm({...registerForm, description: e.target.value})}
               rows={3}
+              className="resize-none"
             />
           </div>
-          <div className="mb-6 px-2">
+          
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               연락처
             </label>
@@ -170,18 +177,20 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
               placeholder="010-0000-0000"
               value={registerForm.contact}
               onChange={(e) => setRegisterForm({...registerForm, contact: e.target.value})}
+              className="h-11"
             />
             <p className="text-xs text-gray-500 mt-1">
               010-0000-0000 형식으로 입력해주세요
             </p>
           </div>
-          <div className="mb-6 px-2">
+          
+          <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               사진 첨부
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-              <Camera className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-              <p className="text-sm text-gray-500 mb-2">사진을 업로드해주세요</p>
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+              <Camera className="w-10 h-10 text-gray-400 mx-auto mb-3" />
+              <p className="text-sm text-gray-500 mb-3">사진을 업로드해주세요</p>
               <Input
                 type="file"
                 accept="image/*"
@@ -196,11 +205,16 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
               </label>
             </div>
           </div>
-          <div className="flex flex-row gap-6 justify-end mt-10 px-2">
-            <Button variant="outline" onClick={() => onOpenChange(false)} className="rounded-lg px-6 py-2">
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-end pt-4">
+            <Button variant="outline" onClick={() => onOpenChange(false)} className="rounded-lg px-8 py-2 h-11">
               취소
             </Button>
-            <Button size="sm" variant="default" className="bg-black text-white hover:bg-gray-800 rounded-lg px-6 py-2 font-semibold" style={{backgroundColor: '#000', color: '#fff'}}>
+            <Button 
+              onClick={handleSubmit}
+              className="bg-black text-white hover:bg-gray-800 rounded-lg px-8 py-2 h-11 font-semibold" 
+              style={{backgroundColor: '#000', color: '#fff'}}
+            >
               <Plus className="w-4 h-4 mr-2" />
               분실물 등록
             </Button>

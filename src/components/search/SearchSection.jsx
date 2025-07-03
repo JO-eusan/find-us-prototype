@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Search, MapPin, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -22,24 +23,24 @@ export const SearchSection = ({
 
   return (
     <Card className="animate-fade-in rounded-xl shadow-md">
-      <CardHeader className="pb-2">
-        <CardTitle className="flex items-center text-xl mb-2">
+      <CardHeader className="pb-4">
+        <CardTitle className="flex items-center text-xl">
           <Search className="w-5 h-5 mr-2" />
           방문 장소 기반 분실물 검색
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6 p-6">
+      <CardContent className="space-y-8 p-8">
         {/* Selected Locations Display */}
         {selectedLocations.length > 0 && (
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-3">
               선택된 장소
             </label>
             <div className="flex flex-wrap gap-2">
               {selectedLocations.map((location) => (
                 <div
                   key={location}
-                  className="bg-gray-900 text-white px-3 py-1 rounded-full text-sm flex items-center"
+                  className="bg-gray-900 text-white px-4 py-2 rounded-full text-sm flex items-center"
                 >
                   <MapPin className="w-3 h-3 mr-1" />
                   {location}
@@ -57,28 +58,28 @@ export const SearchSection = ({
         )}
 
         {/* Location Selection */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-3">
             방문했던 장소를 선택해주세요 (서울 지역)
           </label>
           {/* Location Search */}
-          <div className="mb-3">
+          <div className="mb-4">
             <Input
               placeholder="장소 검색 (예: 강남역, 홍대)"
               value={locationSearchKeyword}
               onChange={(e) => onLocationSearchChange(e.target.value)}
-              className="w-full rounded-lg px-4 py-2"
+              className="w-full rounded-lg px-4 py-3"
             />
           </div>
-          <div style={{ maxHeight: '160px', overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '12px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '8px' }}>
+          <div style={{ maxHeight: '180px', overflowY: 'auto', border: '1px solid #e5e7eb', borderRadius: '8px', padding: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '12px' }}>
               {filteredLocations.map((location) => (
                 <button
                   key={location}
                   onClick={() => onLocationToggle(location)}
                   style={{
-                    padding: '8px 12px',
-                    borderRadius: '6px',
+                    padding: '10px 16px',
+                    borderRadius: '8px',
                     fontSize: '14px',
                     textAlign: 'left',
                     border: 'none',
@@ -106,14 +107,22 @@ export const SearchSection = ({
         </div>
 
         {/* Search Input */}
-        <div className="flex space-x-3 items-end">
-          <Input
-            placeholder="분실물 키워드를 입력하세요 (예: 아이폰, 지갑, 팔찌)"
-            value={searchKeyword}
-            onChange={(e) => onSearchKeywordChange(e.target.value)}
-            className="flex-1 rounded-lg px-4 py-2"
-          />
-          <Button onClick={onSearch} className="bg-black text-white hover:bg-gray-800 rounded-lg px-6 py-2 font-semibold shadow">
+        <div className="flex flex-col sm:flex-row gap-4 items-end">
+          <div className="flex-1 w-full">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              분실물 키워드
+            </label>
+            <Input
+              placeholder="분실물 키워드를 입력하세요 (예: 아이폰, 지갑, 팔찌)"
+              value={searchKeyword}
+              onChange={(e) => onSearchKeywordChange(e.target.value)}
+              className="w-full rounded-lg px-4 py-3"
+            />
+          </div>
+          <Button 
+            onClick={onSearch} 
+            className="w-full sm:w-auto bg-black hover:bg-gray-800 text-white rounded-lg px-8 py-3 font-semibold shadow-md transition-colors"
+          >
             <Search className="w-4 h-4 mr-2" />
             검색
           </Button>
