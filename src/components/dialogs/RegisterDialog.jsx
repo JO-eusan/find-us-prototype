@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -86,29 +87,29 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
           분실물 등록
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[33vw] min-w-[400px] bg-white rounded-2xl shadow-2xl max-h-[85vh] overflow-y-auto my-16">
-        <DialogHeader className="px-6 pt-6 pb-4">
-          <DialogTitle className="text-xl font-semibold">분실물 등록하기</DialogTitle>
+      <DialogContent className="max-w-[25vw] min-w-[350px] bg-white rounded-2xl shadow-2xl max-h-[80vh] overflow-y-auto my-20">
+        <DialogHeader className="px-4 pt-4 pb-2">
+          <DialogTitle className="text-lg font-semibold">분실물 등록하기</DialogTitle>
         </DialogHeader>
-        <div className="px-6 pb-6 space-y-4">
-          <div className="grid grid-cols-1 gap-4">
+        <div className="px-4 pb-4 space-y-3">
+          <div className="grid grid-cols-1 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 물품명 *
               </label>
               <Input
                 placeholder="예: 아이폰 14 Pro"
                 value={registerForm.title}
                 onChange={(e) => setRegisterForm({...registerForm, title: e.target.value})}
-                className="h-10"
+                className="h-9"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 카테고리 *
               </label>
               <Select value={registerForm.category} onValueChange={(value) => setRegisterForm({...registerForm, category: value})}>
-                <SelectTrigger className="h-10">
+                <SelectTrigger className="h-9">
                   <SelectValue placeholder="카테고리 선택" />
                 </SelectTrigger>
                 <SelectContent>
@@ -122,13 +123,13 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 gap-4">
+          <div className="grid grid-cols-1 gap-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 습득 장소 *
               </label>
               <Select value={registerForm.location} onValueChange={(value) => setRegisterForm({...registerForm, location: value})}>
-                <SelectTrigger className="h-10">
+                <SelectTrigger className="h-9">
                   <SelectValue placeholder="장소 선택" />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
@@ -141,7 +142,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
               </Select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 습득 날짜 *
               </label>
               <Input
@@ -149,26 +150,26 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
                 value={registerForm.date}
                 onChange={(e) => setRegisterForm({...registerForm, date: e.target.value})}
                 max={new Date().toISOString().split('T')[0]}
-                className="h-10"
+                className="h-9"
               />
             </div>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               상세 설명
             </label>
             <Textarea
               placeholder="물품의 특징, 색상, 브랜드 등을 자세히 적어주세요"
               value={registerForm.description}
               onChange={(e) => setRegisterForm({...registerForm, description: e.target.value})}
-              rows={3}
+              rows={2}
               className="resize-none"
             />
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               연락처
             </label>
             <Input
@@ -176,7 +177,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
               placeholder="010-0000-0000"
               value={registerForm.contact}
               onChange={(e) => setRegisterForm({...registerForm, contact: e.target.value})}
-              className="h-10"
+              className="h-9"
             />
             <p className="text-xs text-gray-500 mt-1">
               010-0000-0000 형식으로 입력해주세요
@@ -184,12 +185,12 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               사진 첨부
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-              <Camera className="w-6 h-6 text-gray-400 mx-auto mb-2" />
-              <p className="text-sm text-gray-500 mb-2">사진을 업로드해주세요</p>
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-3 text-center">
+              <Camera className="w-5 h-5 text-gray-400 mx-auto mb-1" />
+              <p className="text-xs text-gray-500 mb-2">사진을 업로드해주세요</p>
               <Input
                 type="file"
                 accept="image/*"
@@ -205,13 +206,13 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
             </div>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-3 justify-end pt-4">
-            <Button variant="outline" onClick={() => onOpenChange(false)} className="rounded-lg px-6 py-2 h-9">
+          <div className="flex flex-col sm:flex-row gap-3 justify-end pt-3">
+            <Button variant="outline" onClick={() => onOpenChange(false)} className="rounded-lg px-4 py-2 h-9">
               취소
             </Button>
             <Button 
               onClick={handleSubmit}
-              className="bg-black text-white hover:bg-gray-800 rounded-lg px-6 py-2 h-9 font-semibold" 
+              className="bg-black text-white hover:bg-gray-800 rounded-lg px-4 py-2 h-9 font-semibold" 
               style={{backgroundColor: '#000', color: '#fff'}}
             >
               <Plus className="w-4 h-4 mr-2" />

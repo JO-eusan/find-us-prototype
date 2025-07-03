@@ -77,6 +77,67 @@ export const mockLostItems = [
     description: "금색 체인 목걸이, 작은 펜던트 달려있음",
     contact: "중부경찰서",
     foundDate: "2024-06-18"
+  },
+  // 찾는 유실물 추가
+  {
+    id: 8,
+    title: "갤럭시 S24 (검정색)",
+    category: "전자기기",
+    location: "홍대입구역 9번 출구",
+    date: "2024-06-15",
+    status: "찾는 중",
+    description: "검정색 갤럭시 S24, 검은색 케이스 착용, 뒷면에 스티커 부착",
+    contact: "010-1111-****",
+    foundDate: "2024-06-15",
+    type: "찾는 유실물"
+  },
+  {
+    id: 9,
+    title: "갈색 가죽 지갑 (남성용)",
+    category: "지갑/가방",
+    location: "강남구 역삼역 1번 출구",
+    date: "2024-06-14",
+    status: "찾는 중",
+    description: "갈색 가죽 지갑, 운전면허증과 신용카드 포함",
+    contact: "010-2222-****",
+    foundDate: "2024-06-14",
+    type: "찾는 유실물"
+  },
+  {
+    id: 10,
+    title: "무선 이어폰 (에어팟 맥스)",
+    category: "전자기기",
+    location: "서초구 교보타워",
+    date: "2024-06-13",
+    status: "찾는 중",
+    description: "실버색 에어팟 맥스, 검은색 케이스 포함",
+    contact: "010-3333-****",
+    foundDate: "2024-06-13",
+    type: "찾는 유실물"
+  },
+  {
+    id: 11,
+    title: "핑크색 우산",
+    category: "기타",
+    location: "종로구 종각역",
+    date: "2024-06-12",
+    status: "찾는 중",
+    description: "핑크색 접이식 우산, 손잡이에 하트 장식",
+    contact: "010-4444-****",
+    foundDate: "2024-06-12",
+    type: "찾는 유실물"
+  },
+  {
+    id: 12,
+    title: "학생증 (서울대학교)",
+    category: "도서/문구",
+    location: "관악구 서울대입구역",
+    date: "2024-06-11",
+    status: "찾는 중",
+    description: "서울대학교 학생증, 이름: 김*수",
+    contact: "010-5555-****",
+    foundDate: "2024-06-11",
+    type: "찾는 유실물"
   }
 ];
 
