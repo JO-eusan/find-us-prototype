@@ -29,7 +29,7 @@ export const SearchSection = ({
           방문 장소 기반 분실물 검색
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-8 p-8">
+      <CardContent className="space-y-6 p-6">
         {/* Selected Locations Display */}
         {selectedLocations.length > 0 && (
           <div>
