@@ -106,7 +106,7 @@ export const AdminSection = ({
           <Card className="bg-gray-50 border-gray-200">
             <CardContent className="p-6">
               <div className="text-2xl font-bold text-gray-600">{adminItems.length}</div>
-              <p className="text-sm text-gray-500">총 분실물</p>
+              <p className="text-sm text-gray-600">총 분실물</p>
             </CardContent>
           </Card>
           <Card className="bg-blue-50 border-blue-200">
@@ -114,7 +114,7 @@ export const AdminSection = ({
               <div className="text-2xl font-bold text-blue-600">
                 {adminItems.filter(item => item.status === "습득 보관중").length}
               </div>
-              <p className="text-sm text-blue-500">보관중</p>
+              <p className="text-sm text-blue-600">보관중</p>
             </CardContent>
           </Card>
           <Card className="bg-orange-50 border-orange-200">
@@ -122,7 +122,7 @@ export const AdminSection = ({
               <div className="text-2xl font-bold text-orange-600">
                 {overdueItems.length}
               </div>
-              <p className="text-sm text-orange-500">7일 초과</p>
+              <p className="text-sm text-orange-600">7일 초과</p>
             </CardContent>
           </Card>
           <Card className="bg-green-50 border-green-200">
@@ -130,7 +130,7 @@ export const AdminSection = ({
               <div className="text-2xl font-bold text-green-600">
                 {adminItems.filter(item => item.status === "주인 찾음").length}
               </div>
-              <p className="text-sm text-green-500">해결됨</p>
+              <p className="text-sm text-green-600">해결됨</p>
             </CardContent>
           </Card>
         </div>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -31,7 +30,7 @@ export const ChatDialog = ({ isOpen, onOpenChange, selectedItem }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-[33vw] min-w-[400px]">
         <DialogHeader>
           <DialogTitle>분실물 문의하기</DialogTitle>
         </DialogHeader>

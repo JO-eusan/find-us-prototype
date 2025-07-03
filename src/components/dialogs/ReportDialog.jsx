@@ -30,7 +30,7 @@ export const ReportDialog = ({ isOpen, onOpenChange, selectedItem }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md">
+      <DialogContent className="max-w-[33vw] min-w-[400px]">
         <DialogHeader>
           <DialogTitle>분실물 신고하기</DialogTitle>
         </DialogHeader>

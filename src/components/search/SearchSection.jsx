@@ -106,9 +106,9 @@ export const SearchSection = ({
           </div>
         </div>
 
-        {/* Search Input */}
+        {/* Search Input - 키워드 입력창을 더 넓게 */}
         <div className="flex flex-col sm:flex-row gap-4 items-end">
-          <div className="flex-1 w-full">
+          <div className="flex-[3] w-full">
             <label className="block text-sm font-medium text-gray-700 mb-2">
               분실물 키워드
             </label>
@@ -121,7 +121,7 @@ export const SearchSection = ({
           </div>
           <Button 
             onClick={onSearch} 
-            className="w-full sm:w-auto bg-white hover:bg-gray-50 text-black border border-gray-300 rounded-lg px-8 py-3 font-semibold shadow-md transition-colors"
+            className="w-full sm:w-auto sm:flex-[1] bg-white hover:bg-gray-50 text-black border border-gray-300 rounded-lg px-8 py-3 font-semibold shadow-md transition-colors"
           >
             <Search className="w-4 h-4 mr-2" />
             검색

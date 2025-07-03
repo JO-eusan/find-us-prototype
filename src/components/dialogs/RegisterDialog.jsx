@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -87,7 +86,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
           분실물 등록
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-md bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto my-8">
+      <DialogContent className="max-w-[33vw] min-w-[400px] bg-white rounded-2xl shadow-2xl max-h-[85vh] overflow-y-auto my-16">
         <DialogHeader className="px-6 pt-6 pb-4">
           <DialogTitle className="text-xl font-semibold">분실물 등록하기</DialogTitle>
         </DialogHeader>
