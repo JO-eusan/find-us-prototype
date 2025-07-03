@@ -40,13 +40,13 @@ export const SearchSection = ({
               {selectedLocations.map((location) => (
                 <div
                   key={location}
-                  className="bg-gray-900 text-white px-4 py-2 rounded-full text-sm flex items-center"
+                  className="bg-white text-gray-900 px-4 py-2 rounded-full text-sm flex items-center border border-gray-300 shadow-sm"
                 >
                   <MapPin className="w-3 h-3 mr-1" />
                   {location}
                   <button
                     onClick={() => onLocationRemove(location)}
-                    className="ml-2 hover:bg-gray-700 rounded-full p-0.5"
+                    className="ml-2 hover:bg-gray-100 rounded-full p-0.5"
                     style={{ background: 'none', border: 'none', cursor: 'pointer' }}
                   >
                     <X className="w-3 h-3" />
@@ -121,7 +121,7 @@ export const SearchSection = ({
           </div>
           <Button 
             onClick={onSearch} 
-            className="w-full sm:w-auto bg-black hover:bg-gray-800 text-white rounded-lg px-8 py-3 font-semibold shadow-md transition-colors"
+            className="w-full sm:w-auto bg-white hover:bg-gray-50 text-black border border-gray-300 rounded-lg px-8 py-3 font-semibold shadow-md transition-colors"
           >
             <Search className="w-4 h-4 mr-2" />
             검색

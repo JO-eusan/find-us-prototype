@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Search, Bell, MapPin, Calendar, MessageCircle, AlertTriangle, ArrowUpDown } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -86,11 +87,11 @@ export const ResultsSection = ({
                     {item.date}
                   </div>
                 </div>
-                <div className="pt-3 border-t border-gray-200 flex flex-col gap-2">
+                <div className="pt-3 border-t border-gray-200 flex flex-col gap-3">
                   <Button 
                     variant="outline" 
                     size="sm" 
-                    className="w-full rounded-lg"
+                    className="w-full rounded-lg h-9"
                     onClick={() => onChatOpen(item)}
                   >
                     <MessageCircle className="w-4 h-4 mr-2" />
@@ -101,7 +102,7 @@ export const ResultsSection = ({
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="w-full rounded-lg bg-white text-red-600 border-red-200 hover:bg-red-50 font-semibold"
+                      className="w-full rounded-lg h-9 bg-white text-red-600 border-red-200 hover:bg-red-50 font-semibold"
                       onClick={() => onReportOpen(item)}
                     >
                       <AlertTriangle className="w-4 h-4 mr-2" />

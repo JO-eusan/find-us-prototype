@@ -82,17 +82,17 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button size="sm" variant="default" className="bg-black text-white hover:bg-gray-800" style={{backgroundColor: '#000', color: '#fff'}}>
+        <Button size="sm" variant="default" className="bg-black text-white hover:bg-gray-800 h-9" style={{backgroundColor: '#000', color: '#fff'}}>
           <Plus className="w-4 h-4 mr-2" />
           분실물 등록
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-lg bg-white rounded-2xl shadow-2xl">
+      <DialogContent className="max-w-md bg-white rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto my-8">
         <DialogHeader className="px-6 pt-6 pb-4">
           <DialogTitle className="text-xl font-semibold">분실물 등록하기</DialogTitle>
         </DialogHeader>
         <div className="px-6 pb-6 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 물품명 *
@@ -123,7 +123,7 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 습득 장소 *
@@ -188,8 +188,8 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               사진 첨부
             </label>
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-              <Camera className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+              <Camera className="w-6 h-6 text-gray-400 mx-auto mb-2" />
               <p className="text-sm text-gray-500 mb-2">사진을 업로드해주세요</p>
               <Input
                 type="file"
@@ -207,12 +207,12 @@ export const RegisterDialog = ({ isOpen, onOpenChange }) => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-3 justify-end pt-4">
-            <Button variant="outline" onClick={() => onOpenChange(false)} className="rounded-lg px-6 py-2 h-10">
+            <Button variant="outline" onClick={() => onOpenChange(false)} className="rounded-lg px-6 py-2 h-9">
               취소
             </Button>
             <Button 
               onClick={handleSubmit}
-              className="bg-black text-white hover:bg-gray-800 rounded-lg px-6 py-2 h-10 font-semibold" 
+              className="bg-black text-white hover:bg-gray-800 rounded-lg px-6 py-2 h-9 font-semibold" 
               style={{backgroundColor: '#000', color: '#fff'}}
             >
               <Plus className="w-4 h-4 mr-2" />
